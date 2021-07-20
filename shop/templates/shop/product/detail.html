@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock title %}
+
+{% block content %}
+<section class="mb-5 mt-5 container">
+  <div class="row">
+    <div class="col-md-5 mb-4 mb-md-0">
+      <div id="mdb-lightbox-ui"></div>
+      <div class="mdb-lightbox">
+        <div class="row product-gallery mx-1">
+          <div class="col-12 mb-0">
+            <figure class="view overlay rounded z-depth-1 main-img">
+                <img src="{% if product.image %} {{ product.image.url }} {% else %}{% static "img/no_img.png" %}{% endif %}"
+                  class="img-fluid z-depth-1">
+            </figure>           
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h1>{{ product.name }}</h1>
+      <a href="{{ product.category.get_absolute_url }}"><h3 class="mb-2 ml-2 text-muted text-uppercase small">{{ product.category }}</h3></a>
+      <h5 style="margin-top:20px;"><span class="mr-1">$<strong>{{ product.price }}</strong></span></h5>
+      <p class="pt-1">{{ product.description|linebreaks }}</p>
+      <hr>
+      <div class="def-number-input number-input safari_only mb-0">
+            <form action="{% url 'cart:cart_add' product.id %}" method="POST">
+                <div class="quantity" ><strong>{{ cart_product_form }}</strong></div>
+                {% csrf_token %}
+                <input type="submit" value="Add to Cart" class="btn btn-outline-success btn-md mr-1 mb-2 ml-4 float-right">
+            </form>
+        </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

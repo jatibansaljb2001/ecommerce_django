@@ -1,0 +1,69 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    Checkout
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Checkout</h3>
+<div class="row">
+        <div class="col-lg-6">
+            <div class="box-element" id="form-wrapper">
+                <form id="form" action="." method="POST">
+                    <div id="user-info">
+                    <p>User Information:</p>
+                        <div class="form-field">
+                        <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-field">
+                        <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-field">
+                        <label class="form-label">Email Address</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div id="shipping-info">
+                        <hr>
+                        <p>Shipping Information:</p>
+                        <hr>
+                        <div class="form-field">
+                        <label class="form-label">Address</label>
+                            {{ form.address }}
+                        </div>
+                        <div class="form-field">
+                        <label class="form-label">Postal Code</label>
+                            {{ form.postal_code }}
+                        </div>
+                        <div class="form-field">
+                        <label class="form-label" style="margin-right:27px">City</label>
+                            {{ form.city }}
+                        </div>
+                    </div>
+                    <hr>
+                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Place order" >
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="box-element">
+                <div class="order-info">
+                    <h3>Your Order</h3>
+                    <ul>
+                        {% for item in cart %}
+                            <li>{{ item.quantity }} x {{ item.product.name }}
+                                <span>${{ item.total_price }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <p>Total: ${{ cart.get_total_price }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
